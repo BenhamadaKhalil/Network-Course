@@ -1,0 +1,43 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# 🎬  Binary & IP Basics\n### Module AR — L3 Génie Logiciel | Exam Prep","x":-60,"y":-600,"width":520,"height":100},
+		{"id":"why","type":"text","text":"## ❓ Pourquoi ce cours ?\nTout en réseau repose sur le binaire : adresses IP, masques, sous-réseaux. Sans ça, rien ne se configure correctement.","x":-60,"y":-480,"width":520,"height":100},
+		{"id":"s1_title","type":"text","text":"## 📌 Section 1 — Compter en Binaire","x":-1010,"y":-260,"width":430,"height":80},
+		{"id":"s2_title","type":"text","text":"## 📌 Section 2 — Adresse IP en Binaire","x":-520,"y":-260,"width":340,"height":80},
+		{"id":"s3_title","type":"text","text":"## 📌 Section 3 — Masque de Sous-réseau","x":-120,"y":-260,"width":360,"height":80},
+		{"id":"s4_title","type":"text","text":"## 📌 Section 4 — Adresse Réseau & Broadcast","x":300,"y":-260,"width":380,"height":80},
+		{"id":"s5_title","type":"text","text":"## 📌 Section 5 — Lien avec le TD3","x":750,"y":-260,"width":380,"height":80},
+		{"id":"s4_calc","type":"text","text":"### Calculer pour 192.168.10.0/24\n\n```\nAdresse réseau   : 192.168.10.0\nPremière hôte    : 192.168.10.1\nDernière hôte    : 192.168.10.254\nBroadcast        : 192.168.10.255\nMasque           : 255.255.255.0\n```\n\n### Calculer pour 10.0.12.0/30\n```\nAdresse réseau   : 10.0.12.0\nPremière hôte    : 10.0.12.1  ← R1\nDeuxième hôte    : 10.0.12.2  ← R2\nBroadcast        : 10.0.12.3\nMasque           : 255.255.255.252\n```\n> ✅ C'est exactement la liaison R1-R2 du TD3 !","x":300,"y":-120,"width":380,"height":520},
+		{"id":"s5_td3","type":"text","text":"### Plan d'adressage du TD3 — Expliqué\n\n| Liaison | Réseau | Masque | Pourquoi ? |\n|---------|--------|--------|------------|\n| PC-A ↔ R1 | 192.168.10.0 | /24 | Réseau LAN, 254 hôtes |\n| R1 ↔ R2 | 10.0.12.0 | /30 | Point-à-point, 2 hôtes |\n| R1 ↔ R3 | 10.0.13.0 | /30 | Point-à-point, 2 hôtes |\n| R3 ↔ R4 | 10.0.34.0 | /30 | Point-à-point, 2 hôtes |\n| R2 ↔ R3 | 172.10.34.0 | /16 | Transit, large plage |\n| PC-B ↔ R4 | 192.168.20.0 | /24 | Réseau LAN, 254 hôtes |\n\n> 💡 Les liaisons entre routeurs utilisent /30 car on a besoin de **seulement 2 adresses** — économie d'espace d'adressage !","x":750,"y":-120,"width":430,"height":520},
+		{"id":"s3_mask","type":"text","text":"### Qu'est-ce qu'un masque ?\nLe masque sépare la partie **réseau** (1s) de la partie **hôte** (0s).\n\n```\n255.255.255.0  =  /24\n11111111.11111111.11111111.00000000\n└──────── réseau ────────┘ └─hôte─┘\n```\n\n```\n255.255.255.252  =  /30\n11111111.11111111.11111111.11111100\n└───────────── réseau ──────-───┘└─┘\n                                   2 bits hôte\n```\n\n> /30 → 2² = 4 adresses, **2 utilisables**\n> Utilisé pour les liaisons point-à-point (TD3 !)","x":-120,"y":-120,"width":380,"height":520},
+		{"id":"s2_ip","type":"text","text":"### Décomposer 192.168.1.1\n\n```\n192  →  11000000\n168  →  10101000\n  1  →  00000001\n  1  →  00000001\n```\n\n**IP complète en binaire :**\n`11000000.10101000.00000001.00000001`\n\n> Une adresse IPv4 = **32 bits** = 4 octets\n> Notation pointée = 4 groupes de 8 bits","x":-520,"y":-120,"width":340,"height":380},
+		{"id":"s4_and","type":"text","text":"### ET logique (AND) pour trouver le réseau\n```\nIP      : 192.168.10.25\nMasque  : 255.255.255.0\n        AND\nRéseau  : 192.168.10.0\n```\n> Bit à bit : 1 AND 1 = 1, tout autre = 0","x":300,"y":450,"width":380,"height":270},
+		{"id":"s5_interfaces","type":"text","text":"### Attribution des interfaces R1\n```\nR1 - fa0/0 (vers S1/PC-A) : 192.168.10.1/24\nR1 - se0/0 (vers R2)      : 10.0.12.1/30\nR1 - se0/1 (vers R3)      : 10.0.13.1/30\n```","x":750,"y":480,"width":380,"height":240},
+		{"id":"s3_cidr","type":"text","text":"### Notation CIDR — Mémo rapide\n\n| Notation | Masque | Hôtes utilisables |\n|----------|--------|-------------------|\n| /24 | 255.255.255.0 | 254 |\n| /25 | 255.255.255.128 | 126 |\n| /30 | 255.255.255.252 | **2** |\n| /16 | 255.255.0.0 | 65534 |\n\n> **Formule :** 2ⁿ − 2 (n = bits hôte)","x":-120,"y":430,"width":360,"height":330},
+		{"id":"s2_classes","type":"text","text":"### Classes d'adresses IP\n\n| Classe | Plage | 1er octet binaire |\n|--------|-------|-------------------|\n| A | 1–126 | `0xxxxxxx` |\n| B | 128–191 | `10xxxxxx` |\n| C | 192–223 | `110xxxxx` |\n\n> 192.168.x.x → **Classe C** (réseau privé)","x":-520,"y":430,"width":340,"height":290},
+		{"id":"summary","type":"text","text":"## ✅ Résumé à retenir pour l'examen\n\n1. **Bit** = 0 ou 1 | **Octet** = 8 bits | **IPv4** = 32 bits\n2. Le masque en `/n` = n bits à 1 depuis la gauche\n3. **2ⁿ − 2** = nombre d'hôtes utilisables (n = bits hôte)\n4. `/30` → toujours pour les liaisons **point-à-point** entre routeurs\n5. Adresse réseau = IP **AND** Masque\n6. Broadcast = tous les bits hôte à **1**\n\n> 🎯 **Question type examen :** Donner le masque, l'adresse réseau, broadcast et le nombre d'hôtes pour `172.16.5.0/28`","x":-60,"y":820,"width":520,"height":295},
+		{"id":"s1_bits","type":"text","text":"### Les 8 bits d'un octet\n\n| Poids | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 |\n|-------|-----|----|----|----|----|---|---|---|\n| Bit   |  1  |  1 |  0 |  0 | 0 | 0 | 0 | 1 |\n\n**Résultat :** 128 + 64 + 1 = **193**\n\n> 💡 Un octet = 8 bits → valeurs de 0 à 255","x":-1120,"y":-120,"width":540,"height":260},
+		{"id":"s1_practice","type":"text","text":"### ✏️ Exercice rapide\nConvertir en binaire :\n- `192` → ?\n- `168` → ?\n- `1` → ?\n- `10` → ?\n\n**Réponses :**\n`11000000` · `10101000` · `00000001` · `00001010`","x":-1010,"y":220,"width":320,"height":310}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"title","fromSide":"bottom","toNode":"why","toSide":"top"},
+		{"id":"e2","fromNode":"why","fromSide":"bottom","toNode":"s1_title","toSide":"top","label":"Étape 1"},
+		{"id":"e3","fromNode":"why","fromSide":"bottom","toNode":"s2_title","toSide":"top","label":"Étape 2"},
+		{"id":"e4","fromNode":"why","fromSide":"bottom","toNode":"s3_title","toSide":"top","label":"Étape 3"},
+		{"id":"e5","fromNode":"why","fromSide":"bottom","toNode":"s4_title","toSide":"top","label":"Étape 4"},
+		{"id":"e6","fromNode":"why","fromSide":"bottom","toNode":"s5_title","toSide":"top","label":"Étape 5"},
+		{"id":"e7","fromNode":"s1_title","fromSide":"bottom","toNode":"s1_bits","toSide":"top"},
+		{"id":"e8","fromNode":"s1_bits","fromSide":"bottom","toNode":"s1_practice","toSide":"top"},
+		{"id":"e9","fromNode":"s2_title","fromSide":"bottom","toNode":"s2_ip","toSide":"top"},
+		{"id":"e10","fromNode":"s2_ip","fromSide":"bottom","toNode":"s2_classes","toSide":"top"},
+		{"id":"e11","fromNode":"s3_title","fromSide":"bottom","toNode":"s3_mask","toSide":"top"},
+		{"id":"e12","fromNode":"s3_mask","fromSide":"bottom","toNode":"s3_cidr","toSide":"top"},
+		{"id":"e13","fromNode":"s4_title","fromSide":"bottom","toNode":"s4_calc","toSide":"top"},
+		{"id":"e14","fromNode":"s4_calc","fromSide":"bottom","toNode":"s4_and","toSide":"top"},
+		{"id":"e15","fromNode":"s5_title","fromSide":"bottom","toNode":"s5_td3","toSide":"top"},
+		{"id":"e16","fromNode":"s5_td3","fromSide":"bottom","toNode":"s5_interfaces","toSide":"top"},
+		{"id":"e17","fromNode":"s3_cidr","fromSide":"bottom","toNode":"summary","toSide":"top"},
+		{"id":"e18","fromNode":"s4_and","fromSide":"bottom","toNode":"summary","toSide":"top"},
+		{"id":"e19","fromNode":"s5_interfaces","fromSide":"left","toNode":"summary","toSide":"right"}
+	]
+}
